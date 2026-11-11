@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#090b18">
+  <title>PixelPlay | Games & Music</title>
+  <style>
+    :root{--bg:#090b18;--panel:#12162a;--panel2:#191f39;--text:#f5f6ff;--muted:#a6acc7;--purple:#8b5cf6;--cyan:#22d3ee;--line:#2b3150}
+    *{box-sizing:border-box} body{margin:0;background:radial-gradient(ellipse at top,#1a1740 0,#090b18 48%);color:var(--text);font:15px/1.5 system-ui,-apple-system,Segoe UI,sans-serif}
+    button,input{font:inherit} button{cursor:pointer;border:0} a{color:inherit;text-decoration:none}
+    .wrap{max-width:1180px;margin:auto;padding:0 22px}.topbar{position:sticky;top:0;z-index:5;background:#090b18eF;backdrop-filter:blur(14px);border-bottom:1px solid var(--line)}
+    .nav{height:72px;display:flex;align-items:center;justify-content:space-between;gap:18px}.brand{font-size:24px;font-weight:900;letter-spacing:-1px}.brand span{color:var(--cyan)}
+    .navlinks{display:flex;gap:22px;color:var(--muted)}.navlinks a:hover{color:white}.navbtn{background:linear-gradient(100deg,var(--purple),#5b7cfa);color:white;border-radius:12px;padding:10px 16px;font-weight:700}
+    .hero{padding:58px 0 34px;display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center}.eyebrow{color:var(--cyan);font-weight:800;text-transform:uppercase;letter-spacing:2px;font-size:12px}
+    h1{font-size:clamp(38px,6vw,66px);line-height:1.02;letter-spacing:-2.8px;margin:12px 0 16px}.gradient{background:linear-gradient(90deg,#fff,#a78bfa 55%,#67e8f9);color:transparent;background-clip:text}
+    .lead{color:var(--muted);font-size:17px;max-width:570px}.hero-actions{display:flex;gap:12px;margin-top:24px;flex-wrap:wrap}.primary,.secondary{padding:12px 18px;border-radius:12px;font-weight:800}.primary{background:linear-gradient(100deg,var(--purple),#536dff);color:white}.secondary{background:var(--panel2);color:white;border:1px solid var(--line)}
+    .hero-art{min-height:265px;border:1px solid #454071;border-radius:26px;background:linear-gradient(145deg,#29205b,#111a39 60%,#0e293d);display:grid;place-items:center;position:relative;overflow:hidden;box-shadow:0 24px 80px #0006}
+    .hero-art:before,.hero-art:after{content:"";position:absolute;border-radius:50%;filter:blur(1px)}.hero-art:before{width:190px;height:190px;background:#8b5cf655;top:-45px;right:-30px}.hero-art:after{width:130px;height:130px;background:#22d3ee44;bottom:-35px;left:-20px}
+    .controller{font-size:108px;filter:drop-shadow(0 12px 20px #0008);z-index:1}.float{position:absolute;font-size:26px;z-index:2}.f1{top:24px;left:28px}.f2{right:34px;bottom:26px}.f3{left:48px;bottom:36px}
+    .ad{margin:12px 0 34px;border:1px dashed #535b7b;border-radius:15px;min-height:94px;display:grid;place-items:center;text-align:center;color:#929ab9;background:#ffffff05;padding:15px}.ad strong{color:#c8ccee;display:block}.section{padding:18px 0 32px}.section-head{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:18px}.section h2{font-size:27px;margin:0;letter-spacing:-.7px}.sub{color:var(--muted);margin:4px 0 0}.search{background:var(--panel);border:1px solid var(--line);color:white;border-radius:12px;padding:11px 14px;width:min(260px,48vw);outline:none}
+    .games{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.game{background:linear-gradient(150deg,#171c35,#101426);border:1px solid var(--line);border-radius:18px;padding:17px;transition:.2s}.game:hover{transform:translateY(-3px);border-color:#7665c8}.game-icon{height:112px;border-radius:13px;background:linear-gradient(135deg,#29245b,#15344a);display:grid;place-items:center;font-size:50px;margin-bottom:14px}.game h3{margin:0 0 4px}.game p{color:var(--muted);margin:0 0 13px}.play{background:#29224d;color:#d9ceff;border:1px solid #51428c;border-radius:10px;padding:9px 13px;font-weight:700}
+    .musicbox{display:grid;grid-template-columns:1fr 1fr;gap:18px;background:linear-gradient(120deg,#171b35,#10182a);border:1px solid var(--line);border-radius:20px;padding:20px}.musicbox h3{margin:0 0 7px}.musicbox p{color:var(--muted);margin:0 0 14px}.upload{display:inline-block;background:#24314b;color:#c8f7ff;padding:10px 13px;border-radius:10px;font-weight:700;cursor:pointer}.upload input{display:none}audio{width:100%;margin-top:16px}.tracklist{color:var(--muted);font-size:13px;margin-top:10px;max-height:100px;overflow:auto}.track{padding:5px 0;border-bottom:1px solid #ffffff12}
+    .footer{border-top:1px solid var(--line);padding:28px 0 40px;color:var(--muted);display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap}
+    .modal{position:fixed;inset:0;background:#03040bdc;display:none;place-items:center;padding:18px;z-index:10}.modal.show{display:grid}.dialog{width:min(520px,100%);background:#141a31;border:1px solid #454d72;border-radius:20px;padding:22px;position:relative}.dialog h2{margin:0 0 8px}.close{float:right;background:#2a3150;color:white;border-radius:8px;padding:5px 10px}.gamearea{margin-top:18px}.ttt{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;max-width:270px}.cell{aspect-ratio:1;background:#242b4b;color:white;border-radius:10px;font-size:32px;font-weight:800}.game-msg{color:#c7cce4;margin:12px 0}.smallbtn{background:#6650c8;color:white;padding:9px 13px;border-radius:9px}.memory{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}.mem{aspect-ratio:1;border-radius:10px;background:#292f51;color:white;font-size:25px}.mem.open{background:#44377c}.tap-target{padding:22px;border-radius:14px;background:#1e3650;color:#8cecff;font-size:24px;font-weight:900;width:100%}
+    @media(max-width:760px){.navlinks{display:none}.hero{grid-template-columns:1fr;padding-top:38px}.hero-art{min-height:210px}.games{grid-template-columns:1fr 1fr}.musicbox{grid-template-columns:1fr}.section-head{align-items:start;flex-direction:column}.search{width:100%}}
+    @media(max-width:460px){.games{grid-template-columns:1fr}.wrap{padding:0 15px}.nav{height:64px}.brand{font-size:21px}h1{letter-spacing:-1.8px}}
+  </style>
+</head>
+<body>
+  <header class="topbar"><div class="wrap nav">
+    <a class="brand" href="#">PIXEL<span>PLAY</span> 🎮</a>
+    <nav class="navlinks"><a href="#games">Games</a><a href="#music">Music</a><a href="#about">About</a></nav>
+    <button class="navbtn" onclick="alert('Login and registration will be added in the next development step.')">Sign in</button>
+  </div></header>
+  <main class="wrap">
+    <section class="hero">
+      <div><div class="eyebrow">Your play • Your soundtrack</div><h1>Play more.<br><span class="gradient">Vibe harder.</span></h1>
+        <p class="lead">Jump into quick browser games and enjoy your own music, all in one place. No downloads needed for these starter games.</p>
+        <div class="hero-actions"><a class="primary" href="#games">Explore games ↓</a><a class="secondary" href="#music">Open music player ♫</a></div>
+      </div>
+      <div class="hero-art"><span class="float f1">✦</span><span class="float f2">♫</span><span class="float f3">⚡</span><div class="controller">🎮</div></div>
+    </section>
+    <div class="ad"><div><strong>Advertisement space</strong><span>Ad banner placeholder • Connect an approved ad network here later</span></div></div>
+    <section class="section" id="games">
+      <div class="section-head"><div><h2>Choose your game</h2><p class="sub">Quick games you can play right here.</p></div><input class="search" id="gameSearch" placeholder="Search games..." aria-label="Search games"></div>
+      <div class="games" id="gameGrid">
+        <article class="game" data-name="tic tac toe"><div class="game-icon">⭕</div><h3>Tic Tac Toe</h3><p>Challenge a friend on the same device.</p><button class="play" onclick="openGame('ttt')">Play now →</button></article>
+        <article class="game" data-name="memory match"><div class="game-icon">🧠</div><h3>Memory Match</h3><p>Find all matching emoji pairs.</p><button class="play" onclick="openGame('memory')">Play now →</button></article>
+        <article class="game" data-name="speed tap"><div class="game-icon">⚡</div><h3>Speed Tap</h3><p>Test how many times you can tap in 10 seconds.</p><button class="play" onclick="openGame('tap')">Play now →</button></article>
+      </div>
+    </section>
+    <div class="ad"><div><strong>Advertisement space</strong><span>Responsive ad placement between website sections</span></div></div>
+    <section class="section" id="music"><div class="section-head"><div><h2>Music lounge ♫</h2><p class="sub">Choose audio files from your device to play them here.</p></div></div>
+      <div class="musicbox"><div><h3>Your personal playlist</h3><p>This starter player plays audio files you select. Your files are not uploaded to this website.</p><label class="upload">＋ Choose music files <input id="audioFiles" type="file" accept="audio/*" multiple></label><div class="tracklist" id="tracklist">No tracks selected yet.</div></div>
+        <div><h3 id="trackTitle">Nothing playing</h3><p id="trackHint">Select a music file to begin.</p><audio id="audioPlayer" controls></audio></div>
+      </div>
+    </section>
+    <div class="ad"><div><strong>Advertisement space</strong><span>Footer ad placeholder • Replace with approved ad code after approval</span></div></div>
+    <section class="section" id="about"><h2>Welcome to PixelPlay</h2><p class="sub">A growing home for browser games and music. More games, accounts and community features are coming soon.</p></section>
+  </main>
+  <footer class="wrap footer"><span>© <span id="year"></span> PixelPlay. All rights reserved.</span><span>About · Contact · Privacy Policy (add before monetization)</span></footer>
+  <div class="modal" id="gameModal" role="dialog" aria-modal="true" aria-labelledby="gameTitle" onclick="if(event.target===this)closeGame()"><div class="dialog"><button class="close" onclick="closeGame()">Close ✕</button><h2 id="gameTitle">Game</h2><div class="gamearea" id="gameArea"></div></div></div>
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+  document.getElementById('gameSearch').addEventListener('input', e => {
+    const q=e.target.value.toLowerCase();
+    document.querySelectorAll('.game').forEach(card=>card.style.display=card.dataset.name.includes(q)?'':'none');
+  });
+  const modal=document.getElementById('gameModal'), area=document.getElementById('gameArea');
+  let board, turn, locked, first, matched, memoryValues, tapCount, tapTimer, tapInterval;
+  function openGame(type){
+    modal.classList.add('show');
+    if(type==='ttt') startTtt();
+    if(type==='memory') startMemory();
+    if(type==='tap') startTap();
+  }
+  function closeGame(){modal.classList.remove('show');clearInterval(tapInterval);clearTimeout(tapTimer)}
+  function startTtt(){
+    document.getElementById('gameTitle').textContent='Tic Tac Toe'; board=Array(9).fill('');turn='X';
+    area.innerHTML='<p class="game-msg" id="tttMsg">Player X goes first.</p><div class="ttt">'+board.map((_,i)=>`<button class="cell" onclick="tttMove(${i})" aria-label="Cell ${i+1}"></button>`).join('')+'</div><p><button class="smallbtn" onclick="startTtt()">Restart game</button></p>';
+  }
+  function tttMove(i){
+    if(board[i]||winner())return;board[i]=turn;const cells=area.querySelectorAll('.cell');cells[i].textContent=turn;
+    if(winner()){document.getElementById('tttMsg').textContent='Player '+turn+' wins! 🎉';return}
+    if(board.every(Boolean)){document.getElementById('tttMsg').textContent="It's a draw!";return}
+    turn=turn==='X'?'O':'X';document.getElementById('tttMsg').textContent='Player '+turn+' goes next.';
+  }
+  function winner(){return [[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]].some(line=>line.every(i=>board[i]&&board[i]===board[line[0]]))}
+  function startMemory(){
+    document.getElementById('gameTitle').textContent='Memory Match';const icons=['🍒','🚀','🎧','🐼','🍕','🌈','⚽','🦊'];memoryValues=[...icons,...icons].sort(()=>Math.random()-.5);first=null;matched=[];locked=false;
+    area.innerHTML='<p class="game-msg" id="memMsg">Find all 8 matching pairs.</p><div class="memory">'+memoryValues.map((_,i)=>`<button class="mem" id="mem${i}" onclick="flipMemory(${i})">?</button>`).join('')+'</div><p><button class="smallbtn" onclick="startMemory()">Restart game</button></p>';
+  }
+  function flipMemory(i){
+    if(locked||matched.includes(i)||i===first)return;const b=document.getElementById('mem'+i);b.textContent=memoryValues[i];b.classList.add('open');
+    if(first===null){first=i;return}locked=true;const prev=first;first=null;
+    if(memoryValues[prev]===memoryValues[i]){matched.push(prev,i);locked=false;document.getElementById('memMsg').textContent=matched.length===16?'You matched every pair! 🎉':'Nice match! Keep going.'}
+    else setTimeout(()=>{[prev,i].forEach(n=>{const el=document.getElementById('mem'+n);if(el){el.textContent='?';el.classList.remove('open')}});locked=false},750);
+  }
+  function startTap(){
+    clearInterval(tapInterval);clearTimeout(tapTimer);document.getElementById('gameTitle').textContent='Speed Tap';tapCount=0;
+    area.innerHTML='<p class="game-msg" id="tapMsg">Press start, then tap as fast as you can for 10 seconds.</p><button class="smallbtn" id="tapStart" onclick="beginTap()">Start 10-second challenge</button><div style="height:12px"></div><button class="tap-target" id="tapTarget" disabled onclick="tapHit()">TAP!</button>';
+  }
+  function beginTap(){tapCount=0;const target=document.getElementById('tapTarget');target.disabled=false;document.getElementById('tapStart').disabled=true;document.getElementById('tapMsg').textContent='Time left: 10s • Taps: 0';let left=10;tapInterval=setInterval(()=>{left--;document.getElementById('tapMsg').textContent=`Time left: ${left}s • Taps: ${tapCount}`;if(left<=0){clearInterval(tapInterval);target.disabled=true;document.getElementById('tapStart').disabled=false;document.getElementById('tapMsg').textContent=`Time's up! You scored ${tapCount} taps. 🎉`}},1000)}
+  function tapHit(){tapCount++;document.getElementById('tapMsg').textContent=`Taps: ${tapCount}`}
+
+  const fileInput=document.getElementById('audioFiles'), player=document.getElementById('audioPlayer'), list=document.getElementById('tracklist');
+  let tracks=[], current=0, currentUrl=null;
+  fileInput.addEventListener('change',()=>{
+    tracks=Array.from(fileInput.files||[]);current=0;renderTracks();if(tracks.length)playTrack(0);
+  });
+  function renderTracks(){list.innerHTML=tracks.length?'':'No tracks selected yet.';tracks.forEach((f,i)=>{const row=document.createElement('div');row.className='track';row.textContent=(i+1)+'. '+f.name;row.style.cursor='pointer';row.onclick=()=>playTrack(i);list.appendChild(row)})}
+  function playTrack(i){if(!tracks[i])return;current=i;if(currentUrl)URL.revokeObjectURL(currentUrl);currentUrl=URL.createObjectURL(tracks[i]);player.src=currentUrl;document.getElementById('trackTitle').textContent=tracks[i].name;document.getElementById('trackHint').textContent='Track '+(i+1)+' of '+tracks.length;player.play().catch(()=>{});}
+  player.addEventListener('ended',()=>{if(current+1<tracks.length)playTrack(current+1)});
+</script>
+</body>
+</html>
